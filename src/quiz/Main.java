@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,8 +32,7 @@ import javax.swing.SwingConstants;
 
 public class Main {
 	private final static List<String> ACCEPTED = Arrays.asList(ImageIO.getReaderFileSuffixes());
-	private final static char[] BUTTONS = { 'a', 'b', 'c', 'd' };
-	private final static Pattern ANSWER_REGEX = Pattern.compile("\\W([" + new String(BUTTONS) + "])\\W");
+	private final static Pattern ANSWER_REGEX = Pattern.compile("-([a-z])[.]");
 
 	private JLabel results;
 	private JFrame frame;
@@ -45,6 +46,7 @@ public class Main {
 	private int good = 0;
 
 	private int bad = 0;
+	private final Set<Character> buttons = new TreeSet<Character>();
 
 	/**
 	 * Launch the application.
@@ -67,26 +69,13 @@ public class Main {
 	 * Create the application.
 	 */
 	public Main() {
-		initialize();
 		try {
-			File dir = new File("img");
-			FilenameFilter filter = new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String name) {
-					int dot = name.lastIndexOf('.');
-					if (dot == -1) {
-						return false;
-					}
-					String ext = name.substring(dot + 1);
-					return ACCEPTED.contains(ext.toLowerCase());
-				}
-			};
-			files = Arrays.asList(dir.listFiles(filter));
+			File dir = loadFiles();
+			initialize();
 			if (files.isEmpty()) {
 				img.setText("<html>Brak obrazków w katalogu " + dir.getAbsolutePath() + "<br>" + "Obsługiwane pliki: "
 						+ ACCEPTED);
 			}
-			checkNames();
 			Collections.shuffle(files);
 			images = new ArrayList<ImageIcon>(files.size());
 			Dimension dim = new Dimension(0, 0);
@@ -118,11 +107,32 @@ public class Main {
 		}
 	}
 
+	private File loadFiles() {
+		File dir = new File("img");
+		FilenameFilter filter = new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				int dot = name.lastIndexOf('.');
+				if (dot == -1) {
+					return false;
+				}
+				String ext = name.substring(dot + 1);
+				return ACCEPTED.contains(ext.toLowerCase());
+			}
+		};
+		files = Arrays.asList(dir.listFiles(filter));
+		checkNames();		
+		return dir;
+	}
+
 	private void checkNames() {
 		for (File file : files) {
 			String name = file.getName();
-			if (!ANSWER_REGEX.matcher(name).find()) {
+			Matcher matcher = ANSWER_REGEX.matcher(name);
+			if (!matcher.find()) {
 				throw new RuntimeException("Nazwa pliku nie zawiera odpowiedzi: " + name);
+			}else{
+				buttons.add(matcher.group(1).charAt(0));
 			}
 		}
 	}
@@ -168,11 +178,11 @@ public class Main {
 		frame.getContentPane().add(img, BorderLayout.CENTER);
 
 		JPanel btnPanel = new JPanel();
-		btnPanel.setPreferredSize(new Dimension(100*BUTTONS.length, 100));
+		btnPanel.setPreferredSize(new Dimension(100*buttons.size(), 100));
 		frame.getContentPane().add(btnPanel, BorderLayout.SOUTH);
-		btnPanel.setLayout(new GridLayout(0, BUTTONS.length, 0, 0));
+		btnPanel.setLayout(new GridLayout(0, buttons.size(), 0, 0));
 
-		for (char name : BUTTONS) {
+		for (char name : buttons) {
 			addButton(btnPanel, name);			
 		}
 	}
