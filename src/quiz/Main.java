@@ -30,8 +30,9 @@ import javax.swing.SwingConstants;
 
 public class Main {
 	private final static List<String> ACCEPTED = Arrays.asList(ImageIO.getReaderFileSuffixes());
-	private static final Pattern ANSWER_REGEX = Pattern.compile("\\W([a-c])\\W");
-	
+	private final static char[] BUTTONS = { 'a', 'b', 'c', 'd' };
+	private final static Pattern ANSWER_REGEX = Pattern.compile("\\W([" + new String(BUTTONS) + "])\\W");
+
 	private JLabel results;
 	private JFrame frame;
 	private JLabel img;
@@ -41,9 +42,9 @@ public class Main {
 
 	private List<File> files;
 
-	private int good=0;
+	private int good = 0;
 
-	private int bad=0;
+	private int bad = 0;
 
 	/**
 	 * Launch the application.
@@ -109,7 +110,7 @@ public class Main {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			String msg = ex.getMessage();
-			if(msg == null || msg.isEmpty()) {
+			if (msg == null || msg.isEmpty()) {
 				msg = ex.toString();
 			}
 			JOptionPane.showMessageDialog(frame, msg);
@@ -120,20 +121,20 @@ public class Main {
 	private void checkNames() {
 		for (File file : files) {
 			String name = file.getName();
-			if(!ANSWER_REGEX.matcher(name).find()){
-				throw new RuntimeException("Nazwa pliku nie zawiera odpowiedzi: "+name);
+			if (!ANSWER_REGEX.matcher(name).find()) {
+				throw new RuntimeException("Nazwa pliku nie zawiera odpowiedzi: " + name);
 			}
 		}
 	}
 
 	private void nextImg() {
 		index++;
-		int no = Math.min(index+1, images.size());
-		int left = Math.max(0, files.size()-index-1);
+		int no = Math.min(index + 1, images.size());
+		int left = Math.max(0, files.size() - index - 1);
 		results.setText(String.format("<html>Dobrze: %d, Źle: %d<br>Pytanie: %d, Pozostało: %d", good, bad, no, left));
 		if (index >= images.size()) {
 			img.setText("Koniec");
-			img.setIcon(null);		
+			img.setIcon(null);
 			disable(frame);
 		} else {
 			ImageIcon icon = images.get(index);
@@ -146,7 +147,7 @@ public class Main {
 		Component[] components = c.getComponents();
 		for (Component component : components) {
 			component.setEnabled(false);
-			if(component instanceof Container) {
+			if (component instanceof Container) {
 				disable((Container) component);
 			}
 		}
@@ -167,44 +168,30 @@ public class Main {
 		frame.getContentPane().add(img, BorderLayout.CENTER);
 
 		JPanel btnPanel = new JPanel();
-		btnPanel.setPreferredSize(new Dimension(10, 100));
+		btnPanel.setPreferredSize(new Dimension(100*BUTTONS.length, 100));
 		frame.getContentPane().add(btnPanel, BorderLayout.SOUTH);
-		btnPanel.setLayout(new GridLayout(0, 3, 0, 0));
+		btnPanel.setLayout(new GridLayout(0, BUTTONS.length, 0, 0));
 
-		JButton a = new JButton("A");
-		a.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				answer("a");
-			}
-		});
-		a.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnPanel.add(a);
+		for (char name : BUTTONS) {
+			addButton(btnPanel, name);			
+		}
+	}
 
-		JButton b = new JButton("B");
-		b.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				answer("b");
-			}
-		});
-		b.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnPanel.add(b);
-
-		JButton c = new JButton("C");
+	private void addButton(JPanel btnPanel, char name) {
+		final String n = String.valueOf(name);
+		JButton c = new JButton(n.toUpperCase());
 		c.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				answer("c");
+				answer(n.toLowerCase());
 			}
 		});
 		c.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnPanel.add(c);
 	}
 
-
 	protected void answer(String answer) {
-		if(index >= files.size()) {
+		if (index >= files.size()) {
 			return;
 		}
 		String name = files.get(index).getName();
@@ -221,6 +208,5 @@ public class Main {
 		}
 		nextImg();
 	}
-
 
 }
