@@ -128,7 +128,7 @@ public class Main {
 	private void checkNames() {
 		for (File file : files) {
 			String name = file.getName();
-			Matcher matcher = ANSWER_REGEX.matcher(name);
+			Matcher matcher = ANSWER_REGEX.matcher(name.toLowerCase());
 			if (!matcher.find()) {
 				throw new RuntimeException("Nazwa pliku nie zawiera odpowiedzi: " + name);
 			}else{
@@ -204,7 +204,7 @@ public class Main {
 		if (index >= files.size()) {
 			return;
 		}
-		String name = files.get(index).getName();
+		String name = files.get(index).getName().toLowerCase();
 		Matcher macher = ANSWER_REGEX.matcher(name);
 		if (macher.find()) {
 			String filenameAnswer = macher.group(1);
