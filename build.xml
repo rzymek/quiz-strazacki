@@ -1,0 +1,18 @@
+<project name="quiz" default="dist">
+	<target name="clean">
+		<delete file="quiz.zip" />
+		<delete file="quiz.jar" />
+	</target>
+	<target name="build">
+		<jar destfile="quiz.jar">
+			<manifest>
+				<attribute name="Main-Class" value="quiz.Main" />
+			</manifest>
+			<fileset dir="bin" />
+		</jar>
+	</target>
+
+	<target name="dist" depends="build">
+		<zip destfile="quiz.zip" basedir="." includes="img/**,quiz.jar" />
+	</target>
+</project>
