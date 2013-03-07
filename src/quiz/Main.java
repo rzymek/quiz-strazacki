@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URL;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -108,7 +111,16 @@ public class Main {
 	}
 
 	private File loadFiles() {
-		File dir = new File("img");
+		ProtectionDomain domain = Main.class.getProtectionDomain();
+		CodeSource code = domain.getCodeSource();
+		URL location = code.getLocation();
+		File jarFile = new File(location.getPath());
+		File jarDir = jarFile.getParentFile();
+
+		File dir = new File(jarDir, "img");
+		if(!(dir.canRead() && dir.isDirectory())) {
+			throw new RuntimeException("Nie mogę odczytac katalogu z pytaniami: "+dir.getAbsolutePath());
+		}
 		FilenameFilter filter = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
