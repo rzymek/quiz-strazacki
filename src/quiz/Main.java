@@ -76,8 +76,10 @@ public class Main {
 			File dir = loadFiles();
 			initialize();
 			if (files.isEmpty()) {
-				img.setText("<html>Brak obrazków w katalogu " + dir.getAbsolutePath() + "<br>" + "Obsługiwane pliki: "
-						+ ACCEPTED);
+				//@formatter:off
+				img.setText("<html>Brak obrazków w katalogu " + dir.getAbsolutePath() + "<br>" + 
+						"Obsługiwane pliki: " + ACCEPTED);
+				//@formatter:on
 			}
 			Collections.shuffle(files);
 			images = new ArrayList<ImageIcon>(files.size());
@@ -118,9 +120,6 @@ public class Main {
 		File jarDir = jarFile.getParentFile();
 
 		File dir = new File(jarDir, "img");
-		if(!(dir.canRead() && dir.isDirectory())) {
-			throw new RuntimeException("Nie mogę odczytac katalogu z pytaniami: "+dir.getAbsolutePath());
-		}
 		FilenameFilter filter = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -132,8 +131,22 @@ public class Main {
 				return ACCEPTED.contains(ext.toLowerCase());
 			}
 		};
-		files = Arrays.asList(dir.listFiles(filter));
-		checkNames();		
+		File[] listFiles = dir.listFiles(filter);
+		if (listFiles == null) {
+			//@formatter:off
+			String msg = "Nie mogę odczytac katalogu z pytaniami: "+dir.getAbsolutePath()+"\n" +
+					"Debug: \n" +
+					"domain: "+domain+"\n" +
+					"code: "+code+"\n" +
+					"location: "+location+"\n" +
+					"jarFile:"+jarFile+"\n" +
+					"jarDir:"+jarDir+"\n" +
+					"dir:"+dir;
+			//@formatter:on
+			throw new RuntimeException(msg);
+		}
+		files = Arrays.asList(listFiles);
+		checkNames();
 		return dir;
 	}
 
@@ -143,7 +156,7 @@ public class Main {
 			Matcher matcher = ANSWER_REGEX.matcher(name.toLowerCase());
 			if (!matcher.find()) {
 				throw new RuntimeException("Nazwa pliku nie zawiera odpowiedzi: " + name);
-			}else{
+			} else {
 				buttons.add(matcher.group(1).charAt(0));
 			}
 		}
@@ -190,12 +203,12 @@ public class Main {
 		frame.getContentPane().add(img, BorderLayout.CENTER);
 
 		JPanel btnPanel = new JPanel();
-		btnPanel.setPreferredSize(new Dimension(100*buttons.size(), 100));
+		btnPanel.setPreferredSize(new Dimension(100 * buttons.size(), 100));
 		frame.getContentPane().add(btnPanel, BorderLayout.SOUTH);
 		btnPanel.setLayout(new GridLayout(0, buttons.size(), 0, 0));
 
 		for (char name : buttons) {
-			addButton(btnPanel, name);			
+			addButton(btnPanel, name);
 		}
 	}
 
