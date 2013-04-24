@@ -1,25 +1,55 @@
 package quiz.strazacki.plugin
 
+import com.google.common.io.Files
 import java.io.File
 import java.io.IOException
+import java.nio.charset.Charset
+import java.util.Map
 import java.util.regex.Pattern
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
+import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
+import org.eclipse.xtext.xbase.lib.Pair
+import com.google.common.collect.Maps
 
-@Mojo(name="genres")
+@Mojo(name="genres", defaultPhase=LifecyclePhase::GENERATE_SOURCES)
 class GenRes extends AbstractMojo {
-	@Parameter(required=true)
+	static val regex = Pattern::compile("-([a-z])[.]")
+
+	@Parameter(defaultValue="${basedir}/src/main/resources/img")
 	public File imgDir;
+	@Parameter(defaultValue="${basedir}/src/main/java/quiz/strazacki/app/Images.java")
+	public File imagesJava;
+	@Parameter(defaultValue="${basedir}/src/main/java/quiz/strazacki/app/QuizData.java")
+	public File quizDataXtend;
+
+	def static <T, K> Map<T, K> operator_add(Map<T, K> map, Pair<T, K> entry) {
+		val result = Maps::newHashMap(map);
+		result.put(entry.key, entry.value);
+		return result
+	}
 
 	override execute() throws MojoExecutionException, MojoFailureException {
 		try {
-			val files = imgDir.list
-			if (files == null)
-				throw new MojoFailureException("Can't read " + imgDir.canonicalPath)
-			var i = 1
+			val files = {
+				val files = imgDir.list
+				if (files == null)
+					throw new MojoFailureException("Can't read " + imgDir.canonicalPath)
+
+				files.map [
+					#{'filename' -> it, 'javaname' -> "i"+it.replaceAll("[.-]", "_")}
+				].map [
+					val m = regex.matcher(it.get('filename').toLowerCase)
+					return if (m.find) {
+						it += ('answer' -> m.group(1).toUpperCase)
+					} else {
+						null
+					}
+				].filter[it != null]
+			}
 			val images = '''
 				package quiz.strazacki.app;
 				
@@ -30,39 +60,35 @@ class GenRes extends AbstractMojo {
 				public interface Images extends ClientBundle {
 					Images INSTANCE = GWT.create(Images.class);
 					«FOR f : files»
-						@Source("«imgDir.name»/«f»")
-						ImageResource img«(i = i + 1)»();
+						@Source("«imgDir.name»/«f.get('filename')»")
+						ImageResource «f.get('javaname')»();
 						
 					«ENDFOR»		
 				}
 			'''
-			i = 1
 			val quizData = '''
-				package quiz.strazacki.app
+				package quiz.strazacki.app;
 				
-				class QuizData {
-					static val imgs = Images::INSTANCE
-					public static val data = #{
+				import java.util.HashMap;
+				import java.util.Map;
+				
+				import com.google.gwt.resources.client.ImageResource;
+				
+				public class QuizData {
+					private static final Images imgs = Images.INSTANCE;
+					public static Map<ImageResource, String> data = new HashMap<ImageResource, String>();
+					static {
 						«FOR f : files»
-							imgs.img«(i = i + 1)» -> '«getAnswerFromName(f)»'
+							data.put(imgs.«f.get('javaname')»(),"«f.get('answer')»");
 						«ENDFOR»
 					}
 				}
 			'''
-			println(quizData)
-
+			Files::write(images, imagesJava, Charset::forName("utf-8"));
+			Files::write(quizData, quizDataXtend, Charset::forName("utf-8"));
 		} catch (IOException e) {
 			throw new MojoFailureException(e.toString, e);
 		}
-	}
-	
-	val regex = Pattern::compile("-([a-z])[.]")
-	def getAnswerFromName(String name) {
-		val m = regex.matcher(name.toLowerCase)
-		if(!m.find) {
-			throw new MojoFailureException("No answer in filename: "+name)
-		}
-		m.group(1).toUpperCase
 	}
 
 	def static void main(String[] args) {
