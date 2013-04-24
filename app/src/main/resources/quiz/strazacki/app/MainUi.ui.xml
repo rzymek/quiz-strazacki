@@ -5,36 +5,21 @@
 		.button {
 			width: 100px;
 			height: 100px;
+			margin-right: 25px
+		}
+		.results {
+			margin: 15px;
+			font-size: 16px;
 		}
 	</ui:style>
-	<g:Grid width="500px" height="500px">
-		<g:row>
-			<g:customCell>
-				<g:Image ui:field="img" />
-			</g:customCell>
-		</g:row>
-		<g:row>
-			<g:customCell>
-				<g:Grid width="100%">
-					<g:row>
-						<g:customCell>
-							<g:Button styleName='{style.button}' ui:field="a">A</g:Button>
-						</g:customCell>
-						<g:customCell>
-							<g:Button styleName='{style.button}' ui:field="b">B</g:Button>
-						</g:customCell>
-						<g:customCell>
-							<g:Button styleName='{style.button}' ui:field="c">C</g:Button>
-						</g:customCell>
-						<g:customCell>
-							<g:Button styleName='{style.button}' ui:field="d">D</g:Button>
-						</g:customCell>
-						<g:customCell>
-							<g:Button styleName='{style.button}' ui:field="e">E</g:Button>
-						</g:customCell>
-					</g:row>
-				</g:Grid>
-			</g:customCell>
-		</g:row>
-	</g:Grid>
+	<g:HTMLPanel>
+		<g:Button styleName='{style.button}' ui:field="a">A</g:Button>
+		<g:Button styleName='{style.button}' ui:field="b">B</g:Button>
+		<g:Button styleName='{style.button}' ui:field="c">C</g:Button>
+		<g:Button styleName='{style.button}' ui:field="d">D</g:Button>
+		<g:Button styleName='{style.button}' ui:field="e">E</g:Button>
+		<br/>
+		<g:HTML ui:field="results" styleName="{style.results}"/>
+		<g:Image ui:field="img" />
+	</g:HTMLPanel>
 </ui:UiBinder> 

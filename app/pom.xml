@@ -75,6 +75,7 @@
 						<artifact>org.eclipse.xtext:org.eclipse.xtext.xbase.lib</artifact>
 						<artifact>com.google.guava:guava-gwt</artifact>
 					</compileSourcesArtifacts>
+					<extraJvmArgs>-Xmx1000M</extraJvmArgs>
 				</configuration>
 			</plugin>
 		</plugins>

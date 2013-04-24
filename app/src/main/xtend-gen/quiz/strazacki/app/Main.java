@@ -12,14 +12,15 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
@@ -47,18 +48,14 @@ public class Main extends MainUi implements EntryPoint {
   @UiField
   protected Image img;
   
+  @UiField
+  protected HTML results;
+  
   public void onModuleLoad() {
     final RootPanel root = RootPanel.get();
     Widget _createAndBindUi = MainUi.uiBinder.createAndBindUi(this);
     root.add(_createAndBindUi);
-    List<Button> _xlistliteral = null;
-    Builder<Button> _builder = ImmutableList.builder();
-    _builder.add(this.a);
-    _builder.add(this.b);
-    _builder.add(this.c);
-    _builder.add(this.d);
-    _builder.add(this.e);
-    _xlistliteral = _builder.build();
+    List<Button> _buttons = this.buttons();
     final Procedure1<Button> _function = new Procedure1<Button>() {
         public void apply(final Button button) {
           final ClickHandler _function = new ClickHandler() {
@@ -70,7 +67,7 @@ public class Main extends MainUi implements EntryPoint {
           button.addClickHandler(_function);
         }
       };
-    IterableExtensions.<Button>forEach(_xlistliteral, _function);
+    IterableExtensions.<Button>forEach(_buttons, _function);
     final KeyPressHandler _function_1 = new KeyPressHandler() {
         public void onKeyPress(final KeyPressEvent it) {
           final String answer = Main.this.getAnswer(it);
@@ -85,7 +82,19 @@ public class Main extends MainUi implements EntryPoint {
     this.nextImage();
   }
   
-  private int currentQuestion = new Function0<Integer>() {
+  public List<Button> buttons() {
+    List<Button> _xlistliteral = null;
+    Builder<Button> _builder = ImmutableList.builder();
+    _builder.add(this.a);
+    _builder.add(this.b);
+    _builder.add(this.c);
+    _builder.add(this.d);
+    _builder.add(this.e);
+    _xlistliteral = _builder.build();
+    return _xlistliteral;
+  }
+  
+  private int index = new Function0<Integer>() {
     public Integer apply() {
       int _minus = (-1);
       return _minus;
@@ -101,70 +110,116 @@ public class Main extends MainUi implements EntryPoint {
     }
   }.apply();
   
+  private int good = 0;
+  
+  private int bad = 0;
+  
   public void nextImage() {
-    int _plus = (this.currentQuestion + 1);
+    int _plus = (this.index + 1);
+    this.index = _plus;
+    int _plus_1 = (this.index + 1);
     int _size = this.data.size();
-    int _modulo = (_plus % _size);
-    this.currentQuestion = _modulo;
-    Entry<ImageResource,String> _get = this.data.get(this.currentQuestion);
-    ImageResource _key = _get.getKey();
-    SafeUri _safeUri = _key.getSafeUri();
-    this.img.setUrl(_safeUri);
+    int no = Math.min(_plus_1, _size);
+    int _size_1 = this.data.size();
+    int _minus = (_size_1 - this.index);
+    int _minus_1 = (_minus - 1);
+    int left = Math.max(0, _minus_1);
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("Pytanie: ");
+    _builder.append(no, "");
+    _builder.append(", Pozosta\u0142o: ");
+    _builder.append(left, "");
+    _builder.append("<br/>");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t\t");
+    _builder.append("Dobrze: ");
+    _builder.append(this.good, "			");
+    _builder.append(", \u0179le: ");
+    _builder.append(this.bad, "			");
+    _builder.append("<br/>");
+    this.results.setHTML(_builder.toString());
+    int _size_2 = this.data.size();
+    boolean _greaterEqualsThan = (this.index >= _size_2);
+    if (_greaterEqualsThan) {
+      List<Button> _buttons = this.buttons();
+      final Procedure1<Button> _function = new Procedure1<Button>() {
+          public void apply(final Button it) {
+            it.setEnabled(false);
+          }
+        };
+      IterableExtensions.<Button>forEach(_buttons, _function);
+    } else {
+      Entry<ImageResource,String> _get = this.data.get(this.index);
+      ImageResource _key = _get.getKey();
+      SafeUri _safeUri = _key.getSafeUri();
+      this.img.setUrl(_safeUri);
+    }
   }
   
   public void processAnswer(final String userAnswer) {
-    Entry<ImageResource,String> _get = this.data.get(this.currentQuestion);
+    Entry<ImageResource,String> _get = this.data.get(this.index);
     final String goodAnswer = _get.getValue();
     boolean _equals = Objects.equal(userAnswer, goodAnswer);
     if (_equals) {
-      Window.alert("Dobrze!");
+      int _plus = (this.good + 1);
+      this.good = _plus;
     } else {
-      String _plus = (userAnswer + " - \u0179le. Przawid\u0142owa odpowiedz: ");
-      String _plus_1 = (_plus + goodAnswer);
-      Window.alert(_plus_1);
+      int _plus_1 = (this.bad + 1);
+      this.bad = _plus_1;
     }
     this.nextImage();
   }
   
   public String getAnswer(final KeyPressEvent e) {
-    String _switchResult = null;
-    char _charCode = e.getCharCode();
-    String _string = Character.valueOf(_charCode).toString();
-    final String _switchValue = _string;
-    boolean _matched = false;
-    if (!_matched) {
-      if (Objects.equal(_switchValue,"1")) {
-        _matched=true;
-        _switchResult = "A";
+    String _xblockexpression = null;
+    {
+      char _charCode = e.getCharCode();
+      String _string = Character.valueOf(_charCode).toString();
+      final String c = _string.toUpperCase();
+      String _switchResult = null;
+      boolean _matched = false;
+      if (!_matched) {
+        boolean _contains = "ABCDE".contains(c);
+        if (_contains) {
+          _matched=true;
+          _switchResult = c;
+        }
       }
-    }
-    if (!_matched) {
-      if (Objects.equal(_switchValue,"2")) {
-        _matched=true;
-        _switchResult = "B";
+      if (!_matched) {
+        if (Objects.equal(c,"1")) {
+          _matched=true;
+          _switchResult = "A";
+        }
       }
-    }
-    if (!_matched) {
-      if (Objects.equal(_switchValue,"3")) {
-        _matched=true;
-        _switchResult = "C";
+      if (!_matched) {
+        if (Objects.equal(c,"2")) {
+          _matched=true;
+          _switchResult = "B";
+        }
       }
-    }
-    if (!_matched) {
-      if (Objects.equal(_switchValue,"4")) {
-        _matched=true;
-        _switchResult = "D";
+      if (!_matched) {
+        if (Objects.equal(c,"3")) {
+          _matched=true;
+          _switchResult = "C";
+        }
       }
-    }
-    if (!_matched) {
-      if (Objects.equal(_switchValue,"5")) {
-        _matched=true;
-        _switchResult = "E";
+      if (!_matched) {
+        if (Objects.equal(c,"4")) {
+          _matched=true;
+          _switchResult = "D";
+        }
       }
+      if (!_matched) {
+        if (Objects.equal(c,"5")) {
+          _matched=true;
+          _switchResult = "E";
+        }
+      }
+      if (!_matched) {
+        _switchResult = null;
+      }
+      _xblockexpression = (_switchResult);
     }
-    if (!_matched) {
-      _switchResult = null;
-    }
-    return _switchResult;
+    return _xblockexpression;
   }
 }

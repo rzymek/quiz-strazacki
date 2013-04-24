@@ -3,13 +3,14 @@
 <module rename-to="quiz">
 	<inherits name="com.google.gwt.user.User" />
 	<source path="app" />
-	<entry-point class="quiz.strazacki.app.Main" />
 	<inherits name="com.google.gwt.user.theme.chrome.Chrome" />
 	<inherits name="org.eclipse.xtend.lib.Lib" />
+	<inherits name="org.eclipse.xtend2.lib.Lib" />
 	<inherits name="org.eclipse.xtext.xbase.lib.Lib" />
 	<inherits name="com.google.common.collect.Collect" />
-
-	<!-- 
+	<entry-point class="quiz.strazacki.app.Main"/>
+	<!--  
+	<entry-point class="quiz.strazacki.app.Main"/>
 	<inherits name='com.google.gwt.user.theme.standard.Standard' /> 
 	<inherits name="com.google.gwt.user.theme.dark.Dark"/> 
 	-->
