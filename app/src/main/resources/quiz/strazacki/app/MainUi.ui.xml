@@ -1,15 +1,20 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
 		.button {
 			width: 100px;
 			height: 100px;
 			margin-right: 25px
 		}
+		
 		.results {
-			margin: 15px;
-			font-size: 16px;
+			margin: 18px;
+			font-size: 18px;
+		}
+		
+		.prevImg {
+			opacity: 0.4;
+			filter: alpha(opacity = 40); /* For IE8 and earlier */
 		}
 	</ui:style>
 	<g:HTMLPanel>
@@ -18,8 +23,14 @@
 		<g:Button styleName='{style.button}' ui:field="c">C</g:Button>
 		<g:Button styleName='{style.button}' ui:field="d">D</g:Button>
 		<g:Button styleName='{style.button}' ui:field="e">E</g:Button>
-		<br/>
-		<g:HTML ui:field="results" styleName="{style.results}"/>
+		<br />
+		<g:HTML ui:field="results" styleName="{style.results}" />
 		<g:Image ui:field="img" />
+		<br />
+		<div style="border:solid 1px #808080; margin: 25px" class="{style.prevImg}">
+			<g:HTML ui:field="answer"/>
+			<g:Image ui:field="prev"/>
+		</div>
+		<br />
 	</g:HTMLPanel>
 </ui:UiBinder> 

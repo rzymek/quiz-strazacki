@@ -26,7 +26,11 @@ class Main extends MainUi implements EntryPoint {
 	@UiField
 	protected Image img
 	@UiField
+	protected Image prev
+	@UiField
 	protected HTML results
+	@UiField
+	protected HTML answer
 
 	override onModuleLoad() {
 		val root = RootPanel::get()
@@ -63,6 +67,7 @@ class Main extends MainUi implements EntryPoint {
 		if (index >= data.size) {
 			buttons.forEach[enabled = false]
 		} else {
+			prev.url = img.url
 			img.url = data.get(index).key.safeUri
 		}
 	}
@@ -71,9 +76,10 @@ class Main extends MainUi implements EntryPoint {
 		val goodAnswer = data.get(index).value
 		if (userAnswer == goodAnswer) {
 			good = good + 1
+			answer.HTML = '''<b style='color:green'>«userAnswer» - Dobrze</b>''' 
 		} else {
 			bad = bad + 1
-//			alert(userAnswer + " - Źle. Przawidłowa odpowiedz: " + goodAnswer)
+			answer.HTML = '''<b style='color:red'>«userAnswer» - Źle. Przawidłowa odpowiedz: «goodAnswer»</b>''' 
 		}
 		nextImage
 	}

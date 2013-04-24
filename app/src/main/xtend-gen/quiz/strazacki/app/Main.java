@@ -49,7 +49,13 @@ public class Main extends MainUi implements EntryPoint {
   protected Image img;
   
   @UiField
+  protected Image prev;
+  
+  @UiField
   protected HTML results;
+  
+  @UiField
+  protected HTML answer;
   
   public void onModuleLoad() {
     final RootPanel root = RootPanel.get();
@@ -149,6 +155,8 @@ public class Main extends MainUi implements EntryPoint {
         };
       IterableExtensions.<Button>forEach(_buttons, _function);
     } else {
+      String _url = this.img.getUrl();
+      this.prev.setUrl(_url);
       Entry<ImageResource,String> _get = this.data.get(this.index);
       ImageResource _key = _get.getKey();
       SafeUri _safeUri = _key.getSafeUri();
@@ -163,9 +171,21 @@ public class Main extends MainUi implements EntryPoint {
     if (_equals) {
       int _plus = (this.good + 1);
       this.good = _plus;
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("<b style=\'color:green\'>");
+      _builder.append(userAnswer, "");
+      _builder.append(" - Dobrze</b>");
+      this.answer.setHTML(_builder.toString());
     } else {
       int _plus_1 = (this.bad + 1);
       this.bad = _plus_1;
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("<b style=\'color:red\'>");
+      _builder_1.append(userAnswer, "");
+      _builder_1.append(" - \u0179le. Przawid\u0142owa odpowiedz: ");
+      _builder_1.append(goodAnswer, "");
+      _builder_1.append("</b>");
+      this.answer.setHTML(_builder_1.toString());
     }
     this.nextImage();
   }
