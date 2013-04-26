@@ -196,7 +196,7 @@ public class Main extends MainUi implements EntryPoint {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("<b style=\'color:red\'>");
       _builder_1.append(userAnswer, "");
-      _builder_1.append(" - \u0179le. Przawid\u0142owa odpowiedz: ");
+      _builder_1.append(" - \u0179le. Prawid\u0142owa odpowiedz: ");
       _builder_1.append(goodAnswer, "");
       _builder_1.append("</b>");
       this.answer.setHTML(_builder_1.toString());
