@@ -59,7 +59,8 @@ public class GenRes extends AbstractMojo {
     try {
       Iterable<Map<String,String>> _xblockexpression = null;
       {
-        final String[] files = this.imgDir.list();
+        String[] _list = this.imgDir.list();
+        final List<String> files = IterableExtensions.<String>sort(((Iterable<String>)Conversions.doWrapArray(_list)));
         boolean _equals = Objects.equal(files, null);
         if (_equals) {
           String _canonicalPath = this.imgDir.getCanonicalPath();
@@ -79,7 +80,7 @@ public class GenRes extends AbstractMojo {
               return _xsetliteral;
             }
           };
-        List<Map<String,String>> _map = ListExtensions.<String, Map<String,String>>map(((List<String>)Conversions.doWrapArray(files)), _function);
+        List<Map<String,String>> _map = ListExtensions.<String, Map<String,String>>map(files, _function);
         final Function1<Map<String,String>,Map<String,String>> _function_1 = new Function1<Map<String,String>,Map<String,String>>() {
             public Map<String,String> apply(final Map<String,String> it) {
               String _get = it.get("filename");
