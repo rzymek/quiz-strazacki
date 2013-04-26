@@ -9,5 +9,4 @@ public class MainUi {
 
 	protected interface MainUiBinder extends UiBinder<Widget, Main> {
 	}
-
 }

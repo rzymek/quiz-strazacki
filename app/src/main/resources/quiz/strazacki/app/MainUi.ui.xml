@@ -14,7 +14,7 @@
 		
 		.prevImg {
 			opacity: 0.4;
-			filter: alpha(opacity = 40); /* For IE8 and earlier */
+			filter: alpha(opacity =   40); /* For IE8 and earlier */
 		}
 	</ui:style>
 	<g:HTMLPanel>
@@ -28,9 +28,15 @@
 		<g:Image ui:field="img" />
 		<br />
 		<div style="border:solid 1px #808080; margin: 25px" class="{style.prevImg}">
-			<g:HTML ui:field="answer"/>
-			<g:Image ui:field="prev"/>
+			<g:HTML ui:field="answer" />
+			<g:Image ui:field="prev" />
 		</div>
 		<br />
+		<div style="width:100%; text-align:right">
+				&copy;2013<br/>	
+				<g:Anchor ui:field="email">Krzysztof Rzymkowski</g:Anchor><br/>
+				Marek Wyrozębski<br />
+				<a href="https://github.com/rzymek/quiz-strazacki">Open-Source, BSD Licence</a>
+		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 

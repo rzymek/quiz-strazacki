@@ -9,9 +9,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -24,6 +27,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+import quiz.strazacki.app.Base64;
 import quiz.strazacki.app.MainUi;
 import quiz.strazacki.app.QuizData;
 import quiz.strazacki.app.ShuffleExtention;
@@ -57,6 +61,9 @@ public class Main extends MainUi implements EntryPoint {
   @UiField
   protected HTML answer;
   
+  @UiField
+  protected Anchor email;
+  
   public void onModuleLoad() {
     final RootPanel root = RootPanel.get();
     Widget _createAndBindUi = MainUi.uiBinder.createAndBindUi(this);
@@ -86,6 +93,13 @@ public class Main extends MainUi implements EntryPoint {
     Type<KeyPressHandler> _type = KeyPressEvent.getType();
     root.<KeyPressHandler>addDomHandler(_function_1, _type);
     this.nextImage();
+  }
+  
+  @UiHandler("email")
+  public void showEmail(final MouseOverEvent e) {
+    String _decode = Base64.decode("ZWVyenltZWtAZ21haWwuY29tCg==");
+    String _plus = ("mailto:" + _decode);
+    this.email.setHref(_plus);
   }
   
   public List<Button> buttons() {

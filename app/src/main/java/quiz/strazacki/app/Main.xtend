@@ -3,14 +3,16 @@ package quiz.strazacki.app
 import com.google.gwt.core.client.EntryPoint
 import com.google.gwt.event.dom.client.KeyPressEvent
 import com.google.gwt.uibinder.client.UiField
+import com.google.gwt.user.client.ui.Anchor
 import com.google.gwt.user.client.ui.Button
 import com.google.gwt.user.client.ui.HTML
 import com.google.gwt.user.client.ui.Image
 import com.google.gwt.user.client.ui.RootPanel
 
-import static com.google.gwt.user.client.Window.*
-
 import static extension quiz.strazacki.app.ShuffleExtention.*
+import com.google.gwt.uibinder.client.UiHandler
+import com.google.gwt.event.dom.client.MouseUpEvent
+import com.google.gwt.event.dom.client.MouseOverEvent
 
 class Main extends MainUi implements EntryPoint {
 	@UiField
@@ -31,6 +33,8 @@ class Main extends MainUi implements EntryPoint {
 	protected HTML results
 	@UiField
 	protected HTML answer
+	@UiField
+	protected Anchor email
 
 	override onModuleLoad() {
 		val root = RootPanel::get()
@@ -47,6 +51,11 @@ class Main extends MainUi implements EntryPoint {
 					processAnswer(answer)
 			], KeyPressEvent::getType());
 		nextImage;
+	}
+
+	@UiHandler("email")
+	def showEmail(MouseOverEvent e) {
+		email.href = "mailto:"+Base64::decode("ZWVyenltZWtAZ21haWwuY29tCg==");
 	}
 
 	def buttons() {
@@ -76,13 +85,14 @@ class Main extends MainUi implements EntryPoint {
 		val goodAnswer = data.get(index).value
 		if (userAnswer == goodAnswer) {
 			good = good + 1
-			answer.HTML = '''<b style='color:green'>«userAnswer» - Dobrze</b>''' 
+			answer.HTML = '''<b style='color:green'>«userAnswer» - Dobrze</b>'''
 		} else {
 			bad = bad + 1
-			answer.HTML = '''<b style='color:red'>«userAnswer» - Źle. Przawidłowa odpowiedz: «goodAnswer»</b>''' 
+			answer.HTML = '''<b style='color:red'>«userAnswer» - Źle. Przawidłowa odpowiedz: «goodAnswer»</b>'''
 		}
 		nextImage
 	}
+
 	def getAnswer(KeyPressEvent e) {
 		val c = e.charCode.toString.toUpperCase
 		switch (c) {
