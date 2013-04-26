@@ -65,7 +65,7 @@ public class Main extends MainUi implements EntryPoint {
   protected Anchor email;
   
   public void onModuleLoad() {
-    final RootPanel root = RootPanel.get();
+    final RootPanel root = RootPanel.get("body");
     Widget _createAndBindUi = MainUi.uiBinder.createAndBindUi(this);
     root.add(_createAndBindUi);
     List<Button> _buttons = this.buttons();

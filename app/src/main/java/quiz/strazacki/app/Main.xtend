@@ -2,7 +2,9 @@ package quiz.strazacki.app
 
 import com.google.gwt.core.client.EntryPoint
 import com.google.gwt.event.dom.client.KeyPressEvent
+import com.google.gwt.event.dom.client.MouseOverEvent
 import com.google.gwt.uibinder.client.UiField
+import com.google.gwt.uibinder.client.UiHandler
 import com.google.gwt.user.client.ui.Anchor
 import com.google.gwt.user.client.ui.Button
 import com.google.gwt.user.client.ui.HTML
@@ -10,9 +12,6 @@ import com.google.gwt.user.client.ui.Image
 import com.google.gwt.user.client.ui.RootPanel
 
 import static extension quiz.strazacki.app.ShuffleExtention.*
-import com.google.gwt.uibinder.client.UiHandler
-import com.google.gwt.event.dom.client.MouseUpEvent
-import com.google.gwt.event.dom.client.MouseOverEvent
 
 class Main extends MainUi implements EntryPoint {
 	@UiField
@@ -37,7 +36,7 @@ class Main extends MainUi implements EntryPoint {
 	protected Anchor email
 
 	override onModuleLoad() {
-		val root = RootPanel::get()
+		val root = RootPanel::get('body')
 		root.add(uiBinder.createAndBindUi(this));
 		buttons.forEach [ button |
 			button.addClickHandler [
