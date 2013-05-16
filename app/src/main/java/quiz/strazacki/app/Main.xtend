@@ -87,7 +87,7 @@ class Main extends MainUi implements EntryPoint {
 			answer.HTML = '''<b style='color:green'>«userAnswer» - Dobrze</b>'''
 		} else {
 			bad = bad + 1
-			answer.HTML = '''<b style='color:red'>«userAnswer» - Źle. Przawidłowa odpowiedz: «goodAnswer»</b>'''
+			answer.HTML = '''<b style='color:red'>«userAnswer» - Źle. Prawidłowa odpowiedz: «goodAnswer»</b>'''
 		}
 		nextImage
 	}
