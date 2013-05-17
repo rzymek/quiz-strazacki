@@ -35,7 +35,7 @@ class GenRes extends AbstractMojo {
 	override execute() throws MojoExecutionException, MojoFailureException {
 		try {
 			val files = {
-				val files = imgDir.list
+				val files = imgDir.list.sort
 				if (files == null)
 					throw new MojoFailureException("Can't read " + imgDir.canonicalPath)
 

@@ -35,7 +35,7 @@
 		<div style="width:100%; text-align:right">
 				&copy;2013<br/>	
 				<g:Anchor ui:field="email">Krzysztof Rzymkowski</g:Anchor><br/>
-				Marek Wyrozębski<br />
+				Marek Wyrozębski - JRG3 Warszawa<br />
 				<a href="https://github.com/rzymek/quiz-strazacki">Open-Source, BSD Licence</a>
 		</div>
 	</g:HTMLPanel>
