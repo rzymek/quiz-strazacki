@@ -13,7 +13,7 @@
 	</parent>
 
 	<properties>
-		<appid>quiz-strazacki</appid>
+		<appid>test-strazacki</appid>
 		<xtend.version>2.4.1-SNAPSHOT</xtend.version>
 		<gwt.mvn.version>2.5.0</gwt.mvn.version>
 	</properties>

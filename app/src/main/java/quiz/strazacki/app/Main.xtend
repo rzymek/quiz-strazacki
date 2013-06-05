@@ -25,7 +25,7 @@ class Main extends MainUi implements EntryPoint {
 	@UiField
 	protected Button e
 	@UiField
-	protected Image img
+	protected Image img 
 	@UiField
 	protected Image prev
 	@UiField
