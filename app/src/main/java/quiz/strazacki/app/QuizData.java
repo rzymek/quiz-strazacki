@@ -151,7 +151,6 @@ public class QuizData {
 		data.put(imgs.i218_d_jpg(),"D");
 		data.put(imgs.i219_b_jpg(),"B");
 		data.put(imgs.i22_a_jpg(),"A");
-		data.put(imgs.i220_c_jpg(),"C");
 		data.put(imgs.i221_c_jpg(),"C");
 		data.put(imgs.i222_b_jpg(),"B");
 		data.put(imgs.i223_c_jpg(),"C");
@@ -204,7 +203,6 @@ public class QuizData {
 		data.put(imgs.i266_b_jpg(),"B");
 		data.put(imgs.i267_c_jpg(),"C");
 		data.put(imgs.i268_c_jpg(),"C");
-		data.put(imgs.i268_d_jpg(),"D");
 		data.put(imgs.i269_b_jpg(),"B");
 		data.put(imgs.i27_d_jpg(),"D");
 		data.put(imgs.i270_c_jpg(),"C");
@@ -264,7 +262,6 @@ public class QuizData {
 		data.put(imgs.i320_b_jpg(),"B");
 		data.put(imgs.i321_c_jpg(),"C");
 		data.put(imgs.i322_c_jpg(),"C");
-		data.put(imgs.i323_c_jpg(),"C");
 		data.put(imgs.i323_d_jpg(),"D");
 		data.put(imgs.i324_c_jpg(),"C");
 		data.put(imgs.i325_b_jpg(),"B");
@@ -362,7 +359,6 @@ public class QuizData {
 		data.put(imgs.i70_b_jpg(),"B");
 		data.put(imgs.i71_c_jpg(),"C");
 		data.put(imgs.i72_b_jpg(),"B");
-		data.put(imgs.i73_b_jpg(),"B");
 		data.put(imgs.i73_c_jpg(),"C");
 		data.put(imgs.i74_b_jpg(),"B");
 		data.put(imgs.i75_c_jpg(),"C");

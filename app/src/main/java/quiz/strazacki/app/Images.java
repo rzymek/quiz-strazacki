@@ -432,9 +432,6 @@ public interface Images extends ClientBundle {
 	@Source("img/22-a.jpg")
 	ImageResource i22_a_jpg();
 	
-	@Source("img/220-c.jpg")
-	ImageResource i220_c_jpg();
-	
 	@Source("img/221-c.jpg")
 	ImageResource i221_c_jpg();
 	
@@ -590,9 +587,6 @@ public interface Images extends ClientBundle {
 	
 	@Source("img/268-c.jpg")
 	ImageResource i268_c_jpg();
-	
-	@Source("img/268-d.jpg")
-	ImageResource i268_d_jpg();
 	
 	@Source("img/269-b.jpg")
 	ImageResource i269_b_jpg();
@@ -770,9 +764,6 @@ public interface Images extends ClientBundle {
 	
 	@Source("img/322-c.jpg")
 	ImageResource i322_c_jpg();
-	
-	@Source("img/323-c.jpg")
-	ImageResource i323_c_jpg();
 	
 	@Source("img/323-d.jpg")
 	ImageResource i323_d_jpg();
@@ -1064,9 +1055,6 @@ public interface Images extends ClientBundle {
 	
 	@Source("img/72-b.jpg")
 	ImageResource i72_b_jpg();
-	
-	@Source("img/73-b.jpg")
-	ImageResource i73_b_jpg();
 	
 	@Source("img/73-c.jpg")
 	ImageResource i73_c_jpg();
