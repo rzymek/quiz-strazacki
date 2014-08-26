@@ -14,7 +14,7 @@
 
 	<properties>
 		<appid>quiz-strazacki</appid>
-		<xtend.version>2.4.1-SNAPSHOT</xtend.version>
+		<xtend.version>2.6.2</xtend.version>
 		<gwt.mvn.version>2.5.0</gwt.mvn.version>
 	</properties>
 
@@ -80,19 +80,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>xtend</id>
-			<url>http://build.eclipse.org/common/xtend/maven/</url>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>xtend</id>
-			<url>http://build.eclipse.org/common/xtend/maven/</url>
-		</pluginRepository>
-	</pluginRepositories>
-
 </project>

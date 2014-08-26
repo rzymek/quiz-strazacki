@@ -16,7 +16,7 @@
 	</parent>
 
 	<properties>
-		<xtend.version>2.4.1-SNAPSHOT</xtend.version>
+		<xtend.version>2.6.2</xtend.version>
 	</properties>
 
 	<dependencies>
@@ -63,12 +63,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	<repositories>
-		<repository>
-			<id>xtend</id>
-			<url>http://build.eclipse.org/common/xtend/maven/</url>
-		</repository>
-	</repositories>
-
 </project>
