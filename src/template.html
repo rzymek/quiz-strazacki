@@ -1,0 +1,120 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>Test Strażacki</title>
+	<style>
+	button{
+		width:100px;
+		height:100px;
+		margin:15px;
+	}
+	#res {
+		padding: 20px;
+		font-size: 150%;
+	}
+	</style>
+	<script type="text/javascript">
+	function byId(id){ 
+		return document.getElementById(id);
+	}
+	
+	var json = {
+@tests.json
+	};
+	function onload() {
+		var options = byId('cat').options;
+		for(var cat in json){
+			options.add(new Option(cat,cat));
+		}
+		start();
+	}
+	var questions;
+	var qidx;
+	var good;
+	var bad;
+	function showQ() {
+		var cat=byId('cat').selectedOptions[0].value;
+		byId('q').src = "TESTY KM 2014/"+cat+"/"+questions[qidx];
+		byId('qpanel').style.display='block';		
+	}
+	
+	function start(){ 
+		var cat=byId('cat').selectedOptions[0].value;
+		good = bad = qidx = 0;
+		questions = shuffle(json[cat]);
+		showQ();
+		showStat();
+		byId('restart').style.display='none';
+		byId('answerPanel').style.display='block';	
+		byId('res').innerHTML='';
+	}
+	//+ Jonas Raoni Soares Silva
+	//@ http://jsfromhell.com/array/shuffle [v1.0]
+	function shuffle(o){ //v1.0
+		for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	  return o;
+	};
+	function showStat(){
+		byId('good').innerHTML = good;
+  	byId('bad').innerHTML = bad;
+		byId('no').innerHTML = qidx+1;
+		byId('left').innerHTML = questions.length - qidx -1;
+	}
+	function answer(btn) {
+		var valid = questions[qidx].replace(/.*-(.*)[.].*/, "$1").toUpperCase();
+		var user = btn.innerHTML.toUpperCase();
+		var res=byId('res');
+		if(user === valid) {
+			res.innerHTML = user + " - Dobrze";
+			res.style.color='green';
+			++good;
+		}else{
+			res.innerHTML = user + " - Źle. Prawidłowa odpowiedź: "+valid;
+			res.style.color='red';
+			++bad;
+		}
+		if(qidx+1 >= questions.length) {
+			byId('answerPanel').style.display='none';	
+			byId('restart').style.display='block';
+		}else{
+			++qidx;
+			showQ();
+		}
+		showStat();
+	}
+	</script>
+</head>
+<body onload="onload()">
+
+<div id="body">
+	Test: <select id="cat" onchange="start()">
+	</select>
+  <div>
+  	<div id="answerPanel">
+    <button class="answer" type="button" onclick="answer(this)">A</button>
+    <button class="answer" type="button" onclick="answer(this)">B</button>
+    <button class="answer" type="button" onclick="answer(this)">C</button>
+    <button class="answer" type="button" onclick="answer(this)">D</button>
+    <button class="answer" type="button" onclick="answer(this)">E</button>
+    </div>
+    <br>
+    <div>Pytanie: <span id="no"></span>, Pozostało: <span id="left"></span>
+      <br>Dobrze: <span id="good"></span>, Źle: <span id="bad"></span>
+    </div>
+    <br>
+    <div id="qpanel" style="display:none; border:solid 1px #808080; margin: 25px">
+			<b id="res"></b><br>			
+      <img id="q">
+    </div>
+    <button id="restart" style="display:none" onclick="start()">Jeszcze raz</button>
+    <br>
+    <div style="width:100%; text-align:right">©2014
+      <br> <a class="gwt-Anchor">Krzysztof Rzymkowski</a>
+      <br>Marek Wyrozębski - JRG3 Warszawa
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
